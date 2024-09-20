@@ -109,6 +109,9 @@ async def chatbot(request: Request):
     elif "techcombank address" in user_input.lower():
         pdf_key = "techcombank_pdfs/DS phong giao dich Techcombank.pdf"
         extracted_text = get_pdf_text_from_s3(bucket_name, pdf_key)
+    elif "nhien" in user_input.lower():
+        pdf_key = "techcombank_pdfs/test.pdf"
+        extracted_text = get_pdf_text_from_s3(bucket_name, pdf_key)
     elif "techcombank annual report" in user_input.lower():
         if user_role == 'customer':
             ai_response = "Sorry, this is company credential, customer cannot be able to know about this."
