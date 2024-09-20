@@ -1,0 +1,152 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
+   <h1 class="h2">User List</h1>
+   <div class="btn-toolbar mb-2 mb-md-0">
+      {% if session['role'] == 'admin' %}
+      <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#addUser">Add User</button>
+      {% endif %}
+   </div>
+</div>
+
+<!--Show message-->
+{%with messages = get_flashed_messages()%}
+{%if messages%}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissable" role="alert">
+   <button type="button" class="close" data-dismiss="alert" aria-label="close">
+      <span aria-hidden="true">&times;</span>
+   </button>
+   {{message}}
+</div>
+{%endfor%}
+{%endif%}
+{%endwith%}
+
+<!--Create a table with database info-->
+<div class="table-responsive">
+   <table id="dtBasicExample" class="table table-bordered table-hover text-center">
+      <thead>
+         <tr>
+            <th>STT</th>
+            <th>Fullname</th>
+            <th>Email</th>
+            {% if session['role'] == 'admin' %}
+            <th>Password</th>
+            {% endif %}
+            {% if session['role'] == 'admin' %}
+            <th>Role</th>
+            {% endif %}
+            {% if session['role'] == 'admin' %}
+            <th>Option</th>
+            {% endif %}
+         </tr>
+      </thead>
+      <tbody>
+         {% for userinfo in users %}
+         <tr>
+            <td>{{loop.index}}</td>
+            <td>{{ userinfo['user_name'] }}</td>
+            <td>{{ userinfo['email'] }}</td>
+            {% if session['role'] == 'admin' %}
+            <td>{{ userinfo['password'] }}</td>
+            {% endif %}
+            <!-- <td>{{ userinfo['lname'] }}</td> -->
+            {% if session['role'] == 'admin' %}
+            <td>{{ userinfo['role'] }}</td>
+            {% endif %}
+            {% if session['role'] == 'admin' %}
+            <td>
+               <a href="/user/update/{{ userinfo['user_id'] }}" class="btn btn-sm btn-outline-success" data-toggle="modal"
+                  data-target="#userupdate{{ userinfo['user_id'] }}">Update</a>
+               <a href="/user/delete/{{ userinfo['user_id'] }}" class="btn btn-sm btn-outline-danger"
+                  onclick="return confirm('Are You Sure For Delete?')">Delete</a>
+            </td>
+            {% endif %}
+         </tr>
+
+         <!--Update user info warning pop up table-->
+         <div id="userupdate{{ userinfo['user_id'] }}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h4 class="modal-title">Update Information</h4>
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                     <form action="{{ url_for('user_api.update_user') }}" method="POST">
+                        <div class="form-group">
+                           <label>Full name:</label>
+                           <input type="hidden" name="id" value="{{ userinfo.user_id }}">
+                           <input type="text" class="form-control" name="fullname" value="{{ userinfo['user_name'] }}">
+                        </div>
+                        <!--Input updated email-->
+                        <div class="form-group">
+                           <label>Email:</label>
+                           <input type="text" class="form-control" name="email" value="{{ userinfo['email'] }}">
+                        </div>                        <div class="form-group">
+                           <label>Password:</label>
+                           <input type="text" class="form-control" name="password" value="{{ userinfo['password'] }}">
+                        </div>
+                        <div class="form-group">
+                           <label>Role:</label>
+                           <select class="form-control" name="role">
+                              <option value="admin" {{ 'selected' if userinfo.role=='admin' else '' }}>Admin</option>
+                              <option value="customer" {{ 'selected' if userinfo.role=='student' else '' }}>Customer</option>
+                              <option value="staff" {{ 'selected' if userinfo.role=='student' else '' }}>Staff</option>
+                           </select>
+                        </div>
+                        <!--Update button to call the function update-->
+                        <div class="form-group">
+                           <button class="btn btn-sm btn-outline-success" type="submits">Update</button>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+         {% endfor %}
+      </tbody>
+   </table>
+
+
+<!-- Insert Modal -->
+<div id="addUser" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Insert User Data</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+            <form action="{{ url_for('user_api.insert_user') }}" method="POST" enctype="multipart/form-data">
+               <div class="form-group">
+                  <label>Full name:</label>
+                  <input type="text" class="form-control" name="fullname" required>
+               </div>
+               <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" class="form-control" name="email" required>
+               </div>
+               <div class="form-group">
+                  <label>Password:</label>
+                  <input type="password" class="form-control" name="password" required>
+               </div>
+               <div class="form-group">
+                  <label>Role:</label>
+                  <select class="form-control" name="role" required>
+                     <option value="admin" >Admin</option>
+                     <option value="customer" >Customer</option>
+                     <option value="staff">Staff</option>
+                  </select>
+               </div>
+               <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+<!--End insert modal-->

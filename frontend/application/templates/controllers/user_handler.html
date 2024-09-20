@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Content Wrapper -->
+<div id="page-content-wrapper" class="d-flex flex-column" style="flex-grow: 1;">
+    {% include 'includes/navigation.html' %}
+    
+    <div class="container-fluid" id="main-content">
+        {% include 'components/user_table.html' %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+email,user_name,password,role
+s1234567@rmit.edu.vn,test 1,password1,staff
+s3695363@rmit.edu.vn,Pham Quoc Bao,123456,admin
+s2345678@rmit.edu.vn,test 2,password2,customer
+s3456789@rmit.edu.vn,test 3,password3,staff
+s4567890@rmit.edu.vn,test 4,password4,customer
+s5678901@rmit.edu.vn,test 5,password5,staff
+s6789012@rmit.edu.vn,test 6,password6,customer
+s7890123@rmit.edu.vn,test 7,password7,customer
+s8901234@rmit.edu.vn,test 8,password8,staff
