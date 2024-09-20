@@ -43,6 +43,10 @@ def get_historical_data():
 # Home route to render the HTML template
 @chat_api.route('/chat/')
 def base():
+    user_id = current_user.user_id
+    user_role = current_user.role
+    print(user_id)
+    print(user_role)
     return render_template('/controllers/chat_page.html')
 
 # API route to handle chatbot interactions
@@ -58,6 +62,7 @@ def chatbot():
     # Send the user's message and conversation_id to the local backend
     user_id = current_user.user_id
     user_role = current_user.role
+    print(user_id)
     response = requests.post(api_gateway_url, json={'message': user_message, 'conversation_id': conversation_id, 'user_id': user_id, 'role': user_role})
     response_data = response.json()
     print(f"backend_response: {response_data}")

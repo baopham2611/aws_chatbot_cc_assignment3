@@ -41,20 +41,20 @@ def registerPage():
         # Make the POST request
         response = requests.post(api_url, json=payload, headers=headers)
 
-        if response.status_code == 200:
+        if response.ok:
             user_data = response.json()
             session['logged_in'] = True
             user = User(
                 name=user_data['user_name'],
                 email=user_data['email'],
                 password=password,  # Save un-hashed password for login
-                user_id=user_data['user_id'],
+                user_id=user_id,
                 role=user_data['role']
             )
             session['name'] = user_data['user_name']
             session['email'] = email
             session['role'] = user_data['role']
-            session['user_id'] = user_data['user_id']
+            session['user_id'] = user_id
             login_user(user)
 
             return redirect(url_for('site.homePage'))
