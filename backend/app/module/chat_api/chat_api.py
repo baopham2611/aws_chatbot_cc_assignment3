@@ -144,7 +144,7 @@ async def chatbot(request: Request):
     full_input = user_input if not extracted_text else f"{user_input}\n\n{extracted_text}"
 
     # Use the Claude model ID
-    model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+    model_id = "anthropic.claude-v2:1"
 
     # Query the generative model and get the response
     ai_response = query_bedrock_model(model_id, full_input)
